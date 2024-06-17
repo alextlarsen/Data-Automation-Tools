@@ -1,2 +1,7 @@
 Betting scraper/
 Danmarks Statistik/
+Sofascore/init_tables.py
+Job scraper/*
+!Job scraper/main.py
+!Job scraper
+
