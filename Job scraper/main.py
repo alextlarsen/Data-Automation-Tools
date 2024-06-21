@@ -1,20 +1,15 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[35]:
-
-
+  
 import os
 os.getcwd()
 
 
-# In[36]:
+# In[2]:
 
 
 #jupyter nbconvert --to script main.ipynb
 
 
-# In[37]:
+# In[3]:
 
 
 import pandas as pd
@@ -22,7 +17,9 @@ from jobspy import scrape_jobs
 search_terms = [
                 "data analyst"
                 ,"data scientist"
-                #,"machine learning"
+                ,"machine learning"
+                , "python"
+                , "AI"
                 ]
 formatted_string = ", ".join(search_terms) 
 formatted_string2 = " + ".join(search_terms) 
@@ -31,7 +28,7 @@ search_terms.append(formatted_string), search_terms.append(formatted_string2)
 
 
 
-# In[38]:
+# In[4]:
 
 
 # Initialize an empty DataFrame
@@ -53,7 +50,7 @@ for term in search_terms:
 df_combined.reset_index(drop=True, inplace=True)
 
 
-# In[22]:
+# In[5]:
 
 
 import numpy as np
@@ -64,7 +61,7 @@ data = data[sel_cols]
 #del jobs, sel_cols
 
 
-# In[45]:
+# In[6]:
 
 
 from datetime import datetime
@@ -73,7 +70,7 @@ data['date_posted'] = pd.to_datetime(data['date_posted'], errors='coerce')
 data['date_posted'] = data['date_posted'].apply(lambda x: x.strftime('%y-%m-%d') if pd.notnull(x) else None)
 
 
-# In[24]:
+# In[7]:
 
 
 #data.to_csv('student_jobs_csv.csv', index = False)
@@ -82,22 +79,24 @@ data['date_posted'] = data['date_posted'].apply(lambda x: x.strftime('%y-%m-%d')
 
 # Load current jobs
 
-# In[46]:
+# In[8]:
 
-
-data_old = pd.read_csv('jobs_csv.csv')
+if os.path.exists('jobs_csv.csv'):
+    data_old = pd.read_csv('jobs_csv.csv')
+else: 
+    data_old = data
 
 
 # Append new jobs to current jobs and remove duplicates
 
-# In[47]:
+# In[9]:
 
 
 data_w_new = pd.concat([data_old, data],ignore_index = True)
 data_w_new = data_w_new.sort_values(by='description', ascending=False)
 
 
-# In[48]:
+# In[10]:
 
 
 data_w_new = data_w_new.drop_duplicates(subset = ['title', 'company'])
@@ -107,7 +106,7 @@ del data_old
 
 # ### Extracting key points from job description using NLP
 
-# In[49]:
+# In[11]:
 
 
 import spacy
@@ -118,7 +117,7 @@ nlp_en = spacy.load("en_core_web_sm")
 nlp_da = spacy.load("da_core_news_sm")
 
 
-# In[50]:
+# In[12]:
 
 
 technical_skills_en = ["data", "data modeling", "analysis", "prediction","machine learning", "neural networks", "scikit-learn"]
@@ -148,7 +147,7 @@ programming_skills_da = translate_skills(programming_skills_en)
 personal_skills_da = translate_skills(personal_skills_en)
 
 
-# In[51]:
+# In[13]:
 
 
 def extract_skills(text):
@@ -188,7 +187,7 @@ def extract_skills(text):
 
 # Apply extract_skills function to each row in dataframe
 
-# In[52]:
+# In[14]:
 
 
 def extract_skills_for_row(text):
@@ -200,7 +199,7 @@ skills_df = data_w_new['description'].apply(extract_skills_for_row).apply(pd.Ser
 df = pd.concat([data_w_new.iloc[:, :8], skills_df], axis=1)
 
 
-# In[53]:
+# In[15]:
 
 
 from datetime import datetime, timedelta
@@ -213,7 +212,7 @@ date = datetime.now() - timedelta(weeks=3)
 filtered_df_short = df_short[df_short['date_posted'] >= date]
 
 
-# In[54]:
+# In[16]:
 
 
 filtered_df_short = filtered_df_short.sort_values(by = "date_posted", ascending = False)
@@ -222,7 +221,7 @@ df = df.sort_values(by = "date_posted", ascending = False)
 
 # ### Saving files to csv and xlsx
 
-# In[55]:
+# In[17]:
 
 
 import os
@@ -233,7 +232,7 @@ df.to_excel('jobs_xl.xlsx', index = False)
 
 # Saving latest jobs as html file and display in browser
 
-# In[56]:
+# In[18]:
 
 
 html_filename = 'student_jobs.html'

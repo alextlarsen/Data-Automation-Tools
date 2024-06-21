@@ -80,7 +80,7 @@ if can_scrape:
      notification = Notification(app_id = "Seneste Nyheder",title=title, msg=cleaned_string, icon = icon_path)
      if href != "https://www.dr.dk/nyheder":
       notification.add_actions(label="Læs videre her", launch=href)
-     notification.set_audio(audio.Mail, loop=False)
+     #notification.set_audio(audio.Mail, loop=False)
      time.sleep(10)
      notification.show()
 
