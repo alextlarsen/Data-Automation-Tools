@@ -243,6 +243,8 @@ df_short_html = filtered_df_short.to_html(index=False,
                                  render_links=True)  # Render URLs as clickable links
 
 # Add HTML headers for better styling
+from datetime import date 
+today = date.today()
 html_content = f"""
 <!DOCTYPE html>
 <html>
@@ -251,6 +253,8 @@ html_content = f"""
     body {{
       font-family: Arial, sans-serif;
       margin: 20px;
+      background-color: #e6f7ff; /* Change background color */
+      color: #333; /* Text color */
     }}
     table {{
       width: 100%;
@@ -277,7 +281,7 @@ html_content = f"""
 </head>
 <body>
 
-<h2>List of Recent Jobs based on {search_terms[:-2]} search-criterion</h2>
+<h2>List of recent jobs based on {search_terms[:-2]} search-criterion. Table generated on {today}</h2>
 
 {df_short_html}
 
