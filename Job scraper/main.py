@@ -17,9 +17,11 @@ from jobspy import scrape_jobs
 search_terms = [
                 "data analyst"
                 ,"data scientist"
-                ,"machine learning"
-                , "python"
-                , "AI"
+                #,"machine learning"
+                #, "python"
+                #, "AI"
+                , "Actuary"
+                , "Aktuar"
                 ]
 formatted_string = ", ".join(search_terms) 
 formatted_string2 = " + ".join(search_terms) 
@@ -42,7 +44,7 @@ for term in search_terms:
         location="Denmark",               
         results_wanted=500,                
         country_indeed='denmark',          
-        job_type='parttime'
+        job_type='fulltime'
     )
     df_jobs = pd.DataFrame(jobs)  # Convert list of dictionaries to DataFrame
     df_combined = pd.concat([df_combined, df_jobs], ignore_index=True)
@@ -120,9 +122,9 @@ nlp_da = spacy.load("da_core_news_sm")
 # In[12]:
 
 
-technical_skills_en = ["data", "data modeling", "analysis", "prediction","machine learning", "neural networks", "scikit-learn"]
+technical_skills_en = ["data", "data modeling", "analysis", "prediction","machine learning", "neural networks", "scikit-learn", "reserving","non-life", "pricing"]
 programming_skills_en =   ["R", "Python", "SQL","VBA","Excel" , "TensorFlow", "Pytorch", "Hadoop", "PySpark", "Git","MLFlow"]
-personal_skills_en = ["analytical", "systematic", "passionate", "curious", "proactive", "perseverance", "focus", "see opportunities", "contribute"]
+personal_skills_en = ["analytical", "systematic", "passionate", "curious", "proactive", "perseverance", "focus", "see opportunities", "contribute", "team-player"]
 
 from googletrans import Translator
 
@@ -235,7 +237,7 @@ df.to_excel('jobs_xl.xlsx', index = False)
 # In[18]:
 
 
-html_filename = 'student_jobs.html'
+html_filename = 'jobs.html'
 df_short_html = filtered_df_short.to_html(index=False, 
                                  justify='center',  # Center-align content
                                  classes='table table-striped table-hover',  # Add Bootstrap table classes
@@ -253,7 +255,6 @@ html_content = f"""
     body {{
       font-family: Arial, sans-serif;
       margin: 20px;
-      background-color: #e6f7ff; /* Change background color */
       color: #333; /* Text color */
     }}
     table {{
